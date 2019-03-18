@@ -1,8 +1,7 @@
 import {Validator} from "./Validator";
 import {ValidationError} from "./ValidationError";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {MetadataStorage} from "../metadata/MetadataStorage";
-import {getFromContainer} from "../container";
+import {defaultMetadataStorage} from "../storage";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
@@ -25,7 +24,7 @@ export class ValidationExecutor {
     // Private Properties
     // -------------------------------------------------------------------------
 
-    private metadataStorage = getFromContainer(MetadataStorage);
+    private metadataStorage = defaultMetadataStorage;
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -43,7 +42,7 @@ export class ValidationExecutor {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
-         * 
+         *
          * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
          */
         if (!this.metadataStorage.hasValidationMetaData) {
@@ -220,7 +219,7 @@ export class ValidationExecutor {
                               errorMap: { [key: string]: string }) {
 
         metadatas.forEach(metadata => {
-            getFromContainer(MetadataStorage)
+            defaultMetadataStorage
                 .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
                     if (customConstraintMetadata.async && this.ignoreAsyncValidations)

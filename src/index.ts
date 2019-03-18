@@ -1,7 +1,7 @@
 import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
 import {ValidationSchema} from "./validation-schema/ValidationSchema";
-import {MetadataStorage} from "./metadata/MetadataStorage";
+import {defaultMetadataStorage} from "./storage";
 import {Validator} from "./validation/Validator";
 import {getFromContainer} from "./container";
 
@@ -106,5 +106,5 @@ export function validateSync(schemaNameOrObject: Object|string,
  * Registers a new validation schema.
  */
 export function registerSchema(schema: ValidationSchema): void {
-    getFromContainer(MetadataStorage).addValidationSchema(schema);
+    defaultMetadataStorage.addValidationSchema(schema);
 }
